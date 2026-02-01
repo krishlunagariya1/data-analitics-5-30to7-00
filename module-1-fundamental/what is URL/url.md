@@ -2,7 +2,6 @@
 
 ## Definition
 A **URL (Uniform Resource Locator)** is a web address that specifies the location of a resource on the internet. It is used to identify and access websites, files, and other resources on the World Wide Web. A URL acts as a reference to a web resource with its location on the internet and a mechanism for retrieving it through a web browser.
-
 ---
 
 ## Etymology

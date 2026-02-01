@@ -3,7 +3,7 @@
 ## Definition
 **Microsoft Excel** is a powerful spreadsheet application that allows users to organize, analyze, and visualize data in a grid format of rows and columns. It is part of the Microsoft Office suite and is one of the most widely used data analysis tools in the world for both personal and professional purposes.
 
----
+--
 
 ## History of Excel
 

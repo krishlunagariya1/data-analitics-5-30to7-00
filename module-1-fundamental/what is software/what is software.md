@@ -2,7 +2,6 @@
 
 ## Definition
 **Software** is a collection of programs, data, and instructions that tell a computer how to perform specific tasks. It is the non-physical component of a computer system that enables the hardware to function and provides users with the ability to interact with computers for various purposes. Software acts as a bridge between users and hardware.
-
 ---
 
 ## Key Characteristics of Software

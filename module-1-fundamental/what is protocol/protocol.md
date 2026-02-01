@@ -13,7 +13,7 @@ A protocol is a formal set of rules that defines how two or more entities commun
 ## Common examples
 - Network: HTTP, TCP/IP, SMTP, WebSocket  
 - APIs: REST contract, gRPC proto definitions  
-- Programming: interfaces/protocols in Swift, Java interfaces
+- Programming: interfaces/protocols in Swift,Java interfaces
 
 ## Minimal example (HTTP request)
 GET /index.html HTTP/1.1  

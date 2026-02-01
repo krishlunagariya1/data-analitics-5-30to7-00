@@ -5,7 +5,6 @@
 Statistics is the science of collecting, analyzing, interpreting, and presenting data to draw meaningful insights and make informed decisions. In data analytics, statistics provides the mathematical and methodological foundation for understanding patterns, relationships, and trends within datasets.
 
 ## Key Components
-
 ### 1. **Data Collection**
    - Gathering relevant and accurate data from various sources
    - Designing sampling methods and surveys

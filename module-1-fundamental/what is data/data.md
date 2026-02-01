@@ -3,7 +3,7 @@
 ## Definition
 **Data** is a collection of facts, figures, symbols, or information that is raw and unprocessed. It represents observations, measurements, or descriptions of phenomena. Data serves as the foundation for information and knowledge creation through processing and analysis.
 
----
+--
 
 ## Etymology
 The word "data" comes from the Latin word "datum," which means "something given." It is the plural form of datum, though in modern usage, "data" is often treated as both singular and plural.

@@ -7,7 +7,7 @@ A server is a computer program or a physical/virtual device that provides servic
 **Key responsibilities:**
 
 - Accept and manage network requests.
-- Process requests and run application logic.
+- Process requests and run application logi.
 - Store, retrieve, and serve data.
 - Enforce access control, logging, and security.
 

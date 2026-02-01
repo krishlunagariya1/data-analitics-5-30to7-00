@@ -3,7 +3,7 @@
 ## Definition
 A **web browser** is a software application that allows users to access, retrieve, and display content from the World Wide Web (WWW). It acts as an intermediary between users and web servers, enabling users to view websites, stream media, and interact with web applications.
 
----
+--
 
 ## History of Web Browsers
 
