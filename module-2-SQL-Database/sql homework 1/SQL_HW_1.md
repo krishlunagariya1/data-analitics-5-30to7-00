@@ -4,7 +4,6 @@
 
 ```sql
 CREATE DATABASE school;
-USE school;
 ```
 
 ---
@@ -14,7 +13,7 @@ USE school;
 ```sql
 CREATE TABLE country (
     country_id INT PRIMARY KEY AUTO_INCREMENT,
-    country_name VARCHAR(100) NOT NULL
+    country_name VARCHAR(100) 
 );
 ```
 
@@ -25,10 +24,10 @@ CREATE TABLE country (
 ```sql
 CREATE TABLE students (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(100) NOT NULL,
-    age INT NOT NULL,
-    grade INT NOT NULL,
-    country_id INT NOT NULL,
+    name VARCHAR(100),
+    age INT,
+    grade INT,
+    country_id INT,
     FOREIGN KEY (country_id) REFERENCES country(country_id)
 );
 ```
@@ -77,18 +76,7 @@ INNER JOIN country c ON s.country_id = c.country_id
 ORDER BY s.id;
 ```
 
-**Result:**
-| id | name | age | grade | country_name |
-|----|------|-----|-------|--------------|
-| 1 | John Smith | 20 | 85 | United States |
-| 2 | Emma Johnson | 19 | 90 | Canada |
-| 3 | Michael Brown | 21 | 78 | United States |
-| 4 | Sophia Lee | 20 | 92 | United Kingdom |
-| 5 | David Wilson | 22 | 88 | Australia |
-| 6 | Olivia Davis | 19 | 95 | Germany |
-| 7 | James Martinez | 21 | 80 | United States |
 
----
 
 ## 7. Find the Average Age of Students in Each Grade
 
@@ -102,18 +90,7 @@ GROUP BY grade
 ORDER BY grade;
 ```
 
-**Result:**
-| grade | average_age | student_count |
-|-------|-------------|---------------|
-| 78 | 21.00 | 1 |
-| 80 | 21.00 | 1 |
-| 85 | 20.00 | 1 |
-| 88 | 22.00 | 1 |
-| 90 | 19.00 | 1 |
-| 92 | 20.00 | 1 |
-| 95 | 19.00 | 1 |
 
----
 
 ## 8. Find the Total Number of Students in Each Country
 
@@ -127,16 +104,7 @@ GROUP BY c.country_id, c.country_name
 ORDER BY total_students DESC;
 ```
 
-**Result:**
-| country_name | total_students |
-|----|---------|
-| United States | 3 |
-| Canada | 1 |
-| United Kingdom | 1 |
-| Australia | 1 |
-| Germany | 1 |
 
----
 
 ## 9. Find the Student with the Highest Grade
 
@@ -165,12 +133,6 @@ ORDER BY grade DESC
 LIMIT 1;
 ```
 
-**Result:**
-| id | name | age | grade | country_id |
-|----|------|-----|-------|-----------|
-| 6 | Olivia Davis | 19 | 95 | 5 |
-
----
 
 ## 10. Update the Grade of a Student with a Specific ID
 
@@ -186,7 +148,6 @@ WHERE id = 3;
 SELECT id, name, grade FROM students WHERE id = 3;
 ```
 
----
 
 ## 11. Delete a Student with a Specific ID
 
@@ -202,46 +163,3 @@ WHERE id = 7;
 SELECT COUNT(*) AS total_students FROM students;
 ```
 
----
-
-## Complete Setup Script (All-in-One)
-
-```sql
--- Create database
-CREATE DATABASE school;
-USE school;
-
--- Create country table
-CREATE TABLE country (
-    country_id INT PRIMARY KEY AUTO_INCREMENT,
-    country_name VARCHAR(100) NOT NULL
-);
-
--- Create students table
-CREATE TABLE students (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(100) NOT NULL,
-    age INT NOT NULL,
-    grade INT NOT NULL,
-    country_id INT NOT NULL,
-    FOREIGN KEY (country_id) REFERENCES country(country_id)
-);
-
--- Insert countries
-INSERT INTO country (country_name) VALUES 
-('United States'),
-('Canada'),
-('United Kingdom'),
-('Australia'),
-('Germany');
-
--- Insert students
-INSERT INTO students (name, age, grade, country_id) VALUES 
-('John Smith', 20, 85, 1),
-('Emma Johnson', 19, 90, 2),
-('Michael Brown', 21, 78, 1),
-('Sophia Lee', 20, 92, 3),
-('David Wilson', 22, 88, 4),
-('Olivia Davis', 19, 95, 5),
-('James Martinez', 21, 80, 1);
-```
