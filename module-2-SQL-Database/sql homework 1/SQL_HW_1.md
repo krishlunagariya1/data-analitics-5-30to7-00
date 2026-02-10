@@ -32,8 +32,6 @@ CREATE TABLE students (
 );
 ```
 
----
-
 ## 4. Insert Records into "country" Table
 
 ```sql
@@ -44,8 +42,6 @@ INSERT INTO country (country_name) VALUES
 ('Australia'),
 ('Germany');
 ```
-
----
 
 ## 5. Insert Records into "students" Table
 
@@ -138,14 +134,7 @@ LIMIT 1;
 
 ```sql
 -- Example: Update the grade of student with ID 3 to 92
-UPDATE students
-SET grade = 92
-WHERE id = 3;
-```
-
-**Verification:**
-```sql
-SELECT id, name, grade FROM students WHERE id = 3;
+UPDATE studen grade = 92 WHERE id = 3;ts SET
 ```
 
 
@@ -153,13 +142,7 @@ SELECT id, name, grade FROM students WHERE id = 3;
 
 ```sql
 -- Example: Delete student with ID 7
-DELETE FROM students
-WHERE id = 7;
+DELETE FROM students WHERE id = 7;
 ```
 
-**Verification:**
-```sql
--- Verify deletion
-SELECT COUNT(*) AS total_students FROM students;
-```
 
