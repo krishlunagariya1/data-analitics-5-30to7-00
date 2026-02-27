@@ -1,0 +1,11 @@
+# 5) write a program  to print your address
+name = input("Enter your name: ")   
+house_number = input("Enter your house number: ")
+street = input("Enter your street: ")
+city = input("Enter your city: ")
+state = input("Enter your state: ")
+postal_code = input("Enter your postal code: ")
+print("\nYour Address:")
+print(name)
+print(house_number, street)
+print(city + ", " + state + " " + postal_code)
