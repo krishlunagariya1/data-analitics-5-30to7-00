@@ -37,3 +37,4 @@ def table(n):
         print(n * i)
 
 
+     
