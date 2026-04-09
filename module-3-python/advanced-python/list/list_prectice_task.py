@@ -40,3 +40,17 @@ print(f"The number of occurrences of {element} in the list is: {occurrences}")
 
 # w.a.p to find the index of the first occurrence of a specific element in a list
 index = my_list.index(element)
+print(f"The index of the first occurrence of {element} in the list is: {index}")
+#output:1
+
+# w.a.p to find the index of the last occurrence of a specific element in a list
+last_index = len(my_list) - 1 - my_list[::-1].index(element)
+print(f"The index of the last occurrence of {element} in the list is: {last_index}")
+#output: 6
+
+# w.a.p to find the number of unique elements in a list
+unique_elements = set(my_list)
+num_unique = len(unique_elements)
+print("The number of unique elements in the list is:", num_unique)
+#output: 5
+
