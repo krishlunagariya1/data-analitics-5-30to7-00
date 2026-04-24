@@ -1,4 +1,4 @@
-# Core Python Assesment
+# Core Oython Assesment
 
 ## Question 1: Healthcare Industry
 
