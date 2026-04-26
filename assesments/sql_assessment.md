@@ -129,7 +129,9 @@ HAVING COUNT(*) > 1;
 
 **Output:-**
 
-There is no duplicate record in this table therefor the output will be empty.
+| SALARY | DEPARTMENT | count |
+|--------|------------|-------|
+| 500000 | Admin      | 2     |
 
 ___
 
@@ -155,6 +157,7 @@ LIMIT 6;
 ___
 
 ### Question 7. Write an SQL query to fetch the departments that have less than five people in them.
+
 **Query:-**
 ```sql
 SELECT DEPARTMENT
@@ -191,16 +194,16 @@ ___
 
 **Query:-**
 ```sql
-SELECT DEPARTMENT, FIRST_NAME, LAST_NAME, SALARY
-FROM Worker w1
-WHERE SALARY = (SELECT MAX(SALARY) FROM Worker w2 WHERE w1.DEPARTMENT = w2.DEPARTMENT);
+SELECT DEPARTMENT,FIRST_NAME,LAST_NAME, MAX(SALARY) as Highest_Salary FROM worker GROUP BY DEPARTMENT;
 ```
 **Output:-**
-| DEPARTMENT  | FIRST_NAME | LAST_NAME | SALARY   |
-|-------------|------------|-----------|----------|
-| Account     | Vipul      | Diwan     | 200000   |
-| Admin       | Amitabh    | Singh     | 500000   |
-| HR          | Vishal     | Singhal   | 300000   |
+
+| DEPARTMENT | FIRST_NAME | LAST_NAME | Higest_Salary |
+|------------|------------|-----------|---------------|
+| HR         | Vishal     | Singhal   |     300000    |
+| Admin      | Amitabh    | Singh     |     500000    |
+| Admin      | Vivek      | Bhati     |     500000    |
+| Account    | Vipul      | Diwan     |     200000    |
 
 
 ---
@@ -267,6 +270,10 @@ INSERT INTO Student (StdID, StdName, Sex, Percentage, Class, Sec, Stream, DOB) V
 
 ### Question 1: To display all the records form STUDENT table. SELECT * FROM student ;
 
+**Query:-**
+```sql
+Select *  from Student ;
+```
 
   | StdID | StdName          | Sex    | Percentage | Class | Sec | Stream   | DOB        |
   |-------|------------------|--------|------------|-------|-----|----------|------------|
@@ -288,6 +295,10 @@ INSERT INTO Student (StdID, StdName, Sex, Percentage, Class, Sec, Stream, DOB) V
   ___
 ### Question 2: To display any name and date of birth from the table STUDENT. SELECT StdName, DOB, FROM student ;
 
+**Query:-**
+```sql
+Select StdName, DOB from student ;
+```
 
   | StdName          | DOB        |
   |------------------|------------|
@@ -309,6 +320,11 @@ INSERT INTO Student (StdID, StdName, Sex, Percentage, Class, Sec, Stream, DOB) V
   ___
 ### Question 3: To display all students record where percentage is greater of equal to 80 FROM student table. SELECT * FROM student WHERE percentage >= 80;
 
+**Query:-**
+```sql
+Select *  From Student where percentage >=80;
+```
+
   | StdID | StdName        | Sex    | Percentage | Class | Sec | Stream  | DOB        |
   |-------|----------------|--------|------------|-------|-----|---------|------------|
   | 1001  | Surekha Joshi  | Female | 82         | 12    | A   | Science | 3/8/1998   |
@@ -317,6 +333,11 @@ INSERT INTO Student (StdID, StdName, Sex, Percentage, Class, Sec, Stream, DOB) V
   ___
 ### Question 4: To display student name, stream and percentage where percentage of student is more than 80 SELECT StdName, Stream, Percentage FROM student WHERE percentage > 80;
 
+**Query:-**
+```sql
+Select StdName, Stream, Percentage from Student where percentage > 80;
+```
+
   | StdName        | Stream  | Percentage |
   |----------------|---------|------------|
   | Surekha Joshi  | Science | 82         |
@@ -324,6 +345,11 @@ INSERT INTO Student (StdID, StdName, Sex, Percentage, Class, Sec, Stream, DOB) V
   | TANI RASTOGI   | Science | 82         |
   ___
 ### Question 5: To display all records of science students whose percentage is more than 75 form student table. SELECT * FROM student WHERE stream = 'Science' AND percentage > 75;
+
+**Query:-**
+```sql
+Select * From Student where Stream = 'Science' AND Percentage > 75;
+```
 
   | StdID | StdName        | Sex    | Percentage | Class | Sec | Stream  | DOB        |
   |-------|----------------|--------|------------|-------|-----|---------|------------|
