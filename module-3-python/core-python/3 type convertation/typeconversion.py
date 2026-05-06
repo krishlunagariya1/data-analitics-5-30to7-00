@@ -7,3 +7,5 @@ print(int(age) + 5)  # this will convert the string "45" to the integer 45 and t
 price = "19.99" 
 print(float(price))  # this will convert the string "19.99" to the float 19.99
 print(float(price) + 5.01)  # this will convert the string "19
+
+

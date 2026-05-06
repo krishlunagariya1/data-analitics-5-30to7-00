@@ -7,3 +7,8 @@ print(age+10)
 price = float(input("what is the price? "))
 
 print("this price is " , price) 
+
+
+a = int(input("Enter a number 1: "))
+b = int(input("Enter a number 2: "))
+print("the sum of a and b is: ", a+b)
