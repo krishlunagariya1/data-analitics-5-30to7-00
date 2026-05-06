@@ -1,3 +1,8 @@
+# A set is an unordered collection of unique elements. 
+# It is defined using curly braces {} and can contain elements of different data types.
+#  Sets are mutable, meaning you can add or remove elements from them,
+#  but they do not allow duplicate values.
+
 '''
 s1 = {1, 5, 6, 9, 12, 1, 5}
 s2 = () # empty set

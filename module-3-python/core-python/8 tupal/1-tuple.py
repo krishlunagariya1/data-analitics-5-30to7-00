@@ -1,3 +1,6 @@
+#tuple is a collection of ordered and immutable elements.
+#  It is defined using parentheses () and can contain elements of different data types.
+
 numbers = (1, 2, 3, 4, 5)  # This is a tuple
 print(numbers)
 print(type(numbers))

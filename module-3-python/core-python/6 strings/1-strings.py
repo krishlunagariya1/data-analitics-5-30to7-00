@@ -1,3 +1,6 @@
+#string is a sequence of characters.
+#It is immutable.
+
 name = "krish"
 
 print(name[0]) #output: k
