@@ -17,3 +17,8 @@ print(name[:4]) #output: kris
 print(name[::2]) #output: krs
 print(name[1::2]) #output: rih
 print(name[::-1]) #output: hsi rk
+
+
+# how to check string type
+name = "krish"
+print(type(name)) #output: <class 'str'>

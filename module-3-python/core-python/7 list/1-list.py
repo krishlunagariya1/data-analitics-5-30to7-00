@@ -6,10 +6,10 @@
 names = ["krish", "patel", "jayesh", "shubham"]
 elements = [1, 34, 67, False, True]
 
-# print(names)
-# print(type(names))
-# print(elements[0])
-# print(elements[1]) 
+print(names) 
+print(type(names))
+print(elements[0])
+print(elements[1]) 
 
 print(elements[1:4]) # Output: [34, 67, False]
 
