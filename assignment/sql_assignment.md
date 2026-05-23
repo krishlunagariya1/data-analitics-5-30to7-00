@@ -198,91 +198,366 @@ WHERE FirstName LIKE 'J%';
 | 102 | James | Smith |
 
 ---
+# SQL Assignment Solutions
 
-# 9) Explain Normalization in Databases
+## 9) Explain normalization in the context of databases
 
-Normalization is the process of organizing data in a database to:
+### Definition
+Normalization is the process of organizing data in a database to reduce data redundancy (duplicate data) and improve data integrity.
 
-- Reduce data redundancy
-- Avoid duplicate data
-- Improve data integrity
-- Increase efficiency
+It divides large tables into smaller related tables and connects them using keys such as Primary Key and Foreign Key.
+
+---
+
+## Objectives of Normalization
+
+- Remove duplicate data
+- Improve data consistency
+- Reduce data anomalies
+- Save storage space
+- Improve database structure
+
+---
 
 ## Types of Normal Forms
 
-| Normal Form | Purpose |
-|-------------|----------|
-| 1NF | Remove repeating groups |
-| 2NF | Remove partial dependency |
-| 3NF | Remove transitive dependency |
+### 1. First Normal Form (1NF)
+Rules:
+- Each column must contain atomic (single) values
+- No repeating groups
+
+### Example
+❌ Wrong Table
+
+| StudentID | Subjects |
+|---|---|
+| 1 | Math, Science |
+
+✅ Correct Table
+
+| StudentID | Subject |
+|---|---|
+| 1 | Math |
+| 1 | Science |
 
 ---
 
-# 10) What Does JOIN Mean in MySQL?
+### 2. Second Normal Form (2NF)
+Rules:
+- Table must already be in 1NF
+- Remove partial dependency
 
-A `JOIN` combines rows from two or more tables using related columns.
+This means non-key columns should depend on the whole primary key.
 
-## Example Query
+---
+
+### 3. Third Normal Form (3NF)
+Rules:
+- Table must already be in 2NF
+- Remove transitive dependency
+
+Non-key columns should depend only on the primary key.
+
+---
+
+## Advantages of Normalization
+
+| Advantage | Description |
+|---|---|
+| Reduces redundancy | Avoids duplicate data |
+| Improves consistency | Same data stored once |
+| Better integrity | Accurate relationships |
+| Easier maintenance | Updates become simple |
+
+---
+
+## Disadvantages of Normalization
+
+| Disadvantage | Description |
+|---|---|
+| More tables | Database becomes complex |
+| More JOIN operations | Queries may become slower |
+
+---
+
+## Conclusion
+
+Normalization helps create an efficient, organized, and reliable database structure by minimizing duplicate data and maintaining proper relationships between tables.
+
+---
+
+# 10) What does a JOIN in MySQL mean?
+
+## Definition
+
+A JOIN in MySQL is used to combine rows from two or more tables based on a related column between them.
+
+Usually, tables are connected using:
+- Primary Key
+- Foreign Key
+
+---
+
+## Why JOIN is Used
+
+JOIN helps retrieve related data stored in different tables.
+
+Example:
+- Employee details in one table
+- Department details in another table
+
+JOIN combines both tables to display complete information.
+
+---
+
+## Basic Syntax
 
 ```sql
-SELECT Employee.FirstName, Company.CompanyName
-FROM Employee
-JOIN Company
-ON Employee.EmployeeID = Company.CompanyID;
+SELECT columns
+FROM table1
+JOIN table2
+ON table1.column_name = table2.column_name;
 ```
 
-## Example Output
+---
 
-| FirstName | CompanyName |
-|------------|--------------|
-| Jack | Toll Brothers |
-| Lesley | Urban Outfitters |
+## Example
+
+### Employee Table
+
+| EmployeeID | Name | DepartmentID |
+|---|---|---|
+| 1 | Krish | 101 |
+
+### Department Table
+
+| DepartmentID | DepartmentName |
+|---|---|
+| 101 | IT |
 
 ---
 
-# 11) Explain DDL, DCL, and DML in MySQL
-
-| Type | Full Form | Purpose | Examples |
-|------|------------|----------|----------|
-| DDL | Data Definition Language | Defines database structure | CREATE, ALTER, DROP |
-| DML | Data Manipulation Language | Manipulates data | INSERT, UPDATE, DELETE |
-| DCL | Data Control Language | Controls permissions | GRANT, REVOKE |
-
----
-
-# 12) Role of JOIN Clause and Common Types of JOINs
-
-The `JOIN` clause retrieves related data from multiple tables.
-
-## Types of JOINs
-
-| JOIN Type | Description |
-|------------|-------------|
-| INNER JOIN | Returns matching rows from both tables |
-| LEFT JOIN | Returns all rows from left table |
-| RIGHT JOIN | Returns all rows from right table |
-| FULL JOIN | Returns all matching and non-matching rows |
-
----
-
-## INNER JOIN Example
+## Query
 
 ```sql
-SELECT Employee.FirstName, Contact.ContactID
+SELECT Employee.Name, Department.DepartmentName
 FROM Employee
-
-INNER JOIN ContactEmployee
-ON Employee.EmployeeID = ContactEmployee.EmployeeID
-
-INNER JOIN Contact
-ON ContactEmployee.ContactID = Contact.ContactID;
+JOIN Department
+ON Employee.DepartmentID = Department.DepartmentID;
 ```
 
-## Example Output
+---
 
-| FirstName | ContactID |
-|------------|------------|
-| Jack | 1 |
-| Lesley | 2 |
+## Output
+
+| Name | DepartmentName |
+|---|---|
+| Krish | IT |
 
 ---
+
+## Advantages of JOIN
+
+- Combines related data
+- Reduces duplicate storage
+- Makes database more normalized
+- Helps generate reports easily
+
+---
+
+# 11) What do you understand about DDL, DCL, and DML in MySQL?
+
+## 1. DDL (Data Definition Language)
+
+DDL commands are used to define and modify database structure.
+
+### Common DDL Commands
+
+| Command | Purpose |
+|---|---|
+| CREATE | Create database/table |
+| ALTER | Modify table structure |
+| DROP | Delete database/table |
+| TRUNCATE | Remove all records |
+
+---
+
+## Example
+
+```sql
+CREATE TABLE Student (
+    ID INT,
+    Name VARCHAR(50)
+);
+```
+
+---
+
+## 2. DML (Data Manipulation Language)
+
+DML commands are used to manage data inside tables.
+
+### Common DML Commands
+
+| Command | Purpose |
+|---|---|
+| INSERT | Add data |
+| UPDATE | Modify data |
+| DELETE | Remove data |
+| SELECT | Retrieve data |
+
+---
+
+## Example
+
+```sql
+INSERT INTO Student (ID, Name)
+VALUES (1, 'Krish');
+```
+
+---
+
+## 3. DCL (Data Control Language)
+
+DCL commands are used to control user permissions and security.
+
+### Common DCL Commands
+
+| Command | Purpose |
+|---|---|
+| GRANT | Give permissions |
+| REVOKE | Remove permissions |
+
+---
+
+## Example
+
+```sql
+GRANT SELECT ON Student TO user1;
+```
+
+---
+
+## Difference Between DDL, DML, and DCL
+
+| Feature | DDL | DML | DCL |
+|---|---|---|---|
+| Full Form | Data Definition Language | Data Manipulation Language | Data Control Language |
+| Purpose | Structure | Data Handling | Permission Control |
+| Works On | Tables/Database | Records/Data | Users |
+
+---
+
+# 12) What is the role of the MySQL JOIN clause in a query, and what are some common types of joins?
+
+## Role of JOIN Clause
+
+The JOIN clause is used to combine data from multiple tables based on a related column.
+
+It helps:
+- Retrieve connected data
+- Reduce duplicate information
+- Improve database organization
+
+---
+
+# Common Types of JOINs in MySQL
+
+---
+
+## 1. INNER JOIN
+
+Returns only matching rows from both tables.
+
+### Syntax
+
+```sql
+SELECT *
+FROM table1
+INNER JOIN table2
+ON table1.id = table2.id;
+```
+
+### Example
+
+If records match in both tables, they are displayed.
+
+---
+
+## 2. LEFT JOIN (LEFT OUTER JOIN)
+
+Returns:
+- All rows from the left table
+- Matching rows from the right table
+
+If no match exists, NULL values are shown.
+
+### Syntax
+
+```sql
+SELECT *
+FROM table1
+LEFT JOIN table2
+ON table1.id = table2.id;
+```
+
+---
+
+## 3. RIGHT JOIN (RIGHT OUTER JOIN)
+
+Returns:
+- All rows from the right table
+- Matching rows from the left table
+
+### Syntax
+
+```sql
+SELECT *
+FROM table1
+RIGHT JOIN table2
+ON table1.id = table2.id;
+```
+
+---
+
+## 4. FULL JOIN
+
+Returns all matching and non-matching rows from both tables.
+
+> Note:
+MySQL does not directly support FULL JOIN.
+It can be achieved using UNION.
+
+---
+
+## 5. CROSS JOIN
+
+Returns the Cartesian product of both tables.
+
+Every row from the first table combines with every row from the second table.
+
+### Syntax
+
+```sql
+SELECT *
+FROM table1
+CROSS JOIN table2;
+```
+
+---
+
+# JOIN Comparison Table
+
+| JOIN Type | Returns |
+|---|---|
+| INNER JOIN | Matching rows only |
+| LEFT JOIN | All left + matching right |
+| RIGHT JOIN | All right + matching left |
+| FULL JOIN | All rows from both tables |
+| CROSS JOIN | All possible combinations |
+
+---
+
+# Conclusion
+
+JOINs are essential in MySQL because they allow data retrieval from multiple related tables efficiently. Different JOIN types are used depending on the required output and relationship between tables.
