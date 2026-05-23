@@ -1,4 +1,6 @@
-# Module 4: Working with Database using SQL – Assignment Solutions
+# Working with Database using SQL – Assignment Solutions
+
+# For this assignment, you will finish building the contact management database for MarketCo
 
 ---
 

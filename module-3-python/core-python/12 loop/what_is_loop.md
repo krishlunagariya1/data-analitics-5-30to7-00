@@ -15,3 +15,5 @@
   3. while 
   4. do while
   5. else with loop (optional)
+
+#sytax

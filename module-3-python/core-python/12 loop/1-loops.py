@@ -1,3 +1,6 @@
+from numpy import iterable
+
+
 items = ["apples", 34, "bannas", "oranges"]
 
 for item in items:
