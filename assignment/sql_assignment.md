@@ -1,4 +1,4 @@
-# Working with Database using SQL – Assignment Solutions
+# SQL Assignment 
 
 # For this assignment, you will finish building the contact management database for MarketCo
 
