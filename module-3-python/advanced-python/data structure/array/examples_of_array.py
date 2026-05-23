@@ -35,13 +35,4 @@ for element in arr:
 #         5
 #         6
 
-# 8. Using NumPy for Arrays
-import numpy as np
-np_arr = np.array([1, 2, 3, 4, 5])
-print(np_arr)
-print(type(np_arr))  # Output: <class 'numpy.ndarray'>
 
-# 9. Multi-dimensional Arrays with NumPy
-np_2d_arr = np.array([[1, 2, 3], [4, 5, 6]])
-print(np_2d_arr)
-print(type(np_2d_arr))  # Output: <class 'numpy.ndarray'>

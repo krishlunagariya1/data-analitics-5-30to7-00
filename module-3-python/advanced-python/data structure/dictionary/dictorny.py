@@ -1,3 +1,13 @@
+"""
+what is dictionary in pyhon?
+
+  A dictionary in Python is a built-in data structure that allows you to store and manage data in key-value pairs.
+  It is an unordered collection of items where each item consists of a key and its corresponding value.
+  Dictionaries are mutable, meaning you can change their content after they have been created.
+
+"""
+
+
 emp = dict({"name": "John", "age": 30, "city": "New York"})
 print(emp.get("name"))  
 print(emp.get("age"))
