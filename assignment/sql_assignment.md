@@ -203,13 +203,13 @@ Rules:
 - No repeating groups
 
 ### Example
-❌ Wrong Table
+=> Wrong Table
 
 | StudentID | Subjects |
 |---|---|
 | 1 | Math, Science |
 
-✅ Correct Table
+=> Correct Table
 
 | StudentID | Subject |
 |---|---|
