@@ -24,4 +24,3 @@
 # w.a.p to find the number of occurrences of a specific element in a list
 # w.a.p to find the index of the first occurrence of a specific element in a list
 #w.a.p to add multiple elements on specific index in a list.
-

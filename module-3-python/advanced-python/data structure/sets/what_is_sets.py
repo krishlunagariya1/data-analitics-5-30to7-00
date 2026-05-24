@@ -5,11 +5,19 @@
 # set is also used to store any data type in python shuch as string, int, float, list, tuple, dict, set etc.
 # set is changes add , update , delete items
 #set is also defined inside of { } whithout key: vlues paired
-# set used inmutable set() 
+# set used inmutable set() to convert any data types into set()
 
 employee= {"divyand","het","krish","divyang"}
 print(employee)
 # output: {'divyand', 'het', 'krish', 'divyang'}
+
+# check data type of set 
+print(type(employee))
+# output: <class 'set'>
+
+#accesing set element
+print(set(employee))
+
 
 # set examples 
 
