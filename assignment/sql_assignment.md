@@ -26,19 +26,8 @@ CREATE TABLE Contact (
 
 ## Output Structure
 
-| Field Name | Data Type |
-|------------|------------|
-| ContactID | INT |
-| CompanyID | INT |
-| FirstName | VARCHAR(45) |
-| LastName | VARCHAR(45) |
-| Street | VARCHAR(45) |
-| City | VARCHAR(45) |
-| State | VARCHAR(2) |
-| Zip | VARCHAR(10) |
-| IsMain | BOOLEAN |
-| Email | VARCHAR(45) |
-| Phone | VARCHAR(12) |
+| ContactID | CompanyID | FirstName | LastName | Street | City | State | Zip | IsMain | Email | Phone |
+|-----------|-----------|-----------|----------|--------|------|-------|-----|--------|--------|-------|
 
 ---
 
@@ -59,16 +48,8 @@ CREATE TABLE Employee (
 
 ## Output Structure
 
-| Field Name | Data Type |
-|------------|------------|
-| EmployeeID | INT |
-| FirstName | VARCHAR(45) |
-| LastName | VARCHAR(45) |
-| Salary | DECIMAL(10,2) |
-| HireDate | DATE |
-| JobTitle | VARCHAR(25) |
-| Email | VARCHAR(45) |
-| Phone | VARCHAR(12) |
+| EmployeeID | CompanyID | FirstName | LastName | Street | City | State | Zip | Email | Phone |
+|------------|-----------|-----------|----------|--------|------|-------|-----|--------|-------|
 
 ---
 
@@ -89,13 +70,8 @@ CREATE TABLE ContactEmployee (
 
 ## Output Structure
 
-| Field Name | Data Type |
-|------------|------------|
-| ContactEmployeeID | INT |
-| ContactID | INT |
-| EmployeeID | INT |
-| ContactDate | DATE |
-| Description | VARCHAR(100) |
+| ContactID | EmployeeID | ContactDate |
+|-----------|------------|-------------|
 
 ---
 
