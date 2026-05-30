@@ -8,3 +8,5 @@ data ={
 
 res = pd.DataFrame(data)
 print(res)
+
+#output
