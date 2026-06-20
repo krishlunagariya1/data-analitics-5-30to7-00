@@ -6,13 +6,13 @@
 
       **screenshot**
 
-      ![alt text](workbook.png)
+      ![alt text](worksheet.png)
 
    3. excel create multiple sheet inside of any worksheet
 
       examples : create a multiple sheet or worksheet
 
-      ![alt text](create_multiple_workbook.png)
+      ![alt text](create_multiplle_worksheet.png)
 
    4. rows an workbook1.xlsx 
 
@@ -22,14 +22,11 @@
 
       columns(A,B,C,D) horizontal data display          
      
-      ![alt text](image-2.png)
+      ![alt text](horozontal_data_display.png)
    
    6. cell : cell is intersection of rows and columns
            
           examples : cell(A1:A5)
-
-          ![alt text](image-3.png)
-
 
     7. basic formula in excels is calculated by with "="
 
@@ -46,7 +43,7 @@
 
    **structures o basic interface**
 
-   ![alt text](workbook.png)
+   ![alt text](basic_interface_of_excel.png)
 
 
    1. ribbon : The toolbar of excel located at top with tabs such as Home | insert | page layout | formulas | data | Reviews | View | Help
@@ -60,19 +57,18 @@
 
          examples : "="
 
-         ![alt text](image-5.png)  
-
+         ![alt text](formula_bar.png)
 
    4. status BAR : shows information like sum , average , count of selected cell 
 
       examples :  
 
-      ![alt text](image-6.png)  
+      ![alt text](status_bar.png)
         
 
    5. sheet tabs : switch between worksheet at the bottom of excel
 
-       ![alt text](image-7.png)     
+       ![alt text](sheet_tabs.png)
     
 
              
