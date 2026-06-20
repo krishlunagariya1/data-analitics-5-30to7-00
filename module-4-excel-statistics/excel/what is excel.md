@@ -6,13 +6,13 @@
 
       **screenshot**
 
-      ![alt text](workbook-1.png)
+      ![alt text](workbook.png)
 
    3. excel create multiple sheet inside of any worksheet
 
       examples : create a multiple sheet or worksheet
 
-      ![alt text](image-1.png)
+      ![alt text](create_multiple_workbook.png)
 
    4. rows an workbook1.xlsx 
 
