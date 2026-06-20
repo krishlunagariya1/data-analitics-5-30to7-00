@@ -6,6 +6,7 @@
 
 # create an app and import all dependancies
 import pandas as pd 
+import seaborn as sns
 import matplotlib.pyplot as plt 
 import mysql.connector
 # database connection 

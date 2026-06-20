@@ -4,7 +4,6 @@
 # - Python
 # - MySQL
 # - Pandas
-# Single File Project
 # =========================================================
 
 import mysql.connector
