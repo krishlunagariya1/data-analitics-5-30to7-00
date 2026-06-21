@@ -6,7 +6,8 @@ conn = mysql.connector.connect(
     host="localhost",
     user="root",
     password="66511",
-    database="canteen_db"
+    database="canteen_db",
+    port=3307
 )
 
 cur = conn.cursor()

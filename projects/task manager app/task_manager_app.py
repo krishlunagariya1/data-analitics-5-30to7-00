@@ -3,19 +3,17 @@
 # create a matplotlib for data visualisation in chart
 # install all ....
 # pip install pandas matplotlib mysql-connector-python 
-
 # create an app and import all dependancies
 import pandas as pd 
-import seaborn as sns
 import matplotlib.pyplot as plt 
 import mysql.connector
 # database connection 
-db=mysql.connector.connect(
-    
+db = mysql.connector.connect(
     host="localhost",
-    user="root", 
-    password="admin",
-    database="task_manager_appdb"
+    user="root",
+    password="66511",
+    database="task_manager_appdb",
+    port=3307
 )
 
 cursor=db.cursor()
