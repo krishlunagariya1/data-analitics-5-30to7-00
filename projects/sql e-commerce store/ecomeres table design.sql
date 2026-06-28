@@ -1,3 +1,5 @@
+-- SQL E-COMMERCE STORE TABLE DESIGN
+
 CREATE DATABASE patelshop;
 USE patelshop;
 

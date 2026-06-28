@@ -1,4 +1,4 @@
--- CUSTOMERS
+-- CUSTOMERS TABLE DATA INSERT 
 INSERT INTO customers (name, email, city, signup_date) VALUES
 ('Amit Sharma','amit@gmail.com','Delhi','2025-01-01'),
 ('Neha Verma','neha@gmail.com','Mumbai','2025-01-02'),

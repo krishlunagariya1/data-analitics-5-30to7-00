@@ -1,0 +1,10 @@
+create a venv and create a task manager app using sql lite database connection 
+
+following instructions ....
+
+1. add task
+2. display task
+3. edit and update task
+4. delete task
+5. show in pichart ratio of completed and panding
+6. exit
