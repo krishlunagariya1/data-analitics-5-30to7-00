@@ -42,7 +42,7 @@ class EmployeeManagementApp:
         self.build_buttons()
         self.load_table_data()
 
-    # ---------------- FORM ----------------
+    # ---------------- FORM ---------------
     def build_form(self):
         form_frame = tk.LabelFrame(self.root, text="Employee Details", bg="#f0f2f5",
                                     font=("Segoe UI", 10, "bold"), padx=15, pady=15)
