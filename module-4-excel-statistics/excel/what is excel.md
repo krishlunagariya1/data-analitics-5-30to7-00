@@ -77,4 +77,42 @@
 
 # common shortcut of excel
 
+
+# what is pivot tables ?
+ 
+ 1. A pivot table is one of the most powerfull features in excel
+ 2. pivot is allow yoy to summerise, analize, organize, and calculate large amount of data without writting complex formulas.
+ 
+
+## wht we called it pivot in excel ?
+
+ 1. The word pivot means rotate or turn arround 
+ 2. In excel you can rotate rows into columns into rows and rearrange daata without changing the origing the original dataset
+
+
+## Advantage of using pivot in excel ? 
+
+ 1. Analyze thousands of rows in seconds 
+ 2. Find totals sales on thousands or lakhes of data
+ 3. Clculate average salray
+ 4. compatred data department wise
+ 5. Generate reports 
+ 6. Create dashboard
+ 7. Analyse profites
+ 8. Summerize expences
+ 9. Group dates (month, quarter, yearly)
+
+
+## Featuers of pivot in Excels ?
+
+ 1. No formula required to calculate 
+ 2. Drag and Drop interface
+ 3. Automatic calculations
+ 4. dynamic repoorts generate
+ 5. Easy filtering
+ 6. Shorting
+ 7. Grouping
+ 8. Data Refresh
+ 9. multiple calculation 
+
          

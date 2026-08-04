@@ -1,9 +1,3 @@
-# create a database connection mysql 
-# create a pandas for data set or data frames 
-# create a matplotlib for data visualisation in chart
-# install all ....
-# pip install pandas matplotlib mysql-connector-python 
-# create an app and import all dependancies
 import pandas as pd 
 import matplotlib.pyplot as plt 
 import mysql.connector

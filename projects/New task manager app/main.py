@@ -1,185 +1,170 @@
-import sqlite3
+import pandas as pd
 import matplotlib.pyplot as plt
+import os
 
-# Database Connection
-conn = sqlite3.connect("task_manager.db")
-cursor = conn.cursor()
+# Create CSV file if it doesn't exist
+if not os.path.exists("tasks.csv"):
+    df = pd.DataFrame(columns=["id", "title", "priority", "status"])
+    df.to_csv("tasks.csv", index=False)
 
-# Create Table
-cursor.execute("""
-CREATE TABLE IF NOT EXISTS tasks(
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    task_name TEXT NOT NULL,
-    status TEXT DEFAULT 'Pending'
-)
-""")
-conn.commit()
+print("Task Manager Started Successfully")
+
+
+# Load DataFrame
+def load_df():
+    return pd.read_csv("tasks.csv")
+
+
+# Save DataFrame
+def save_df(df):
+    df.to_csv("tasks.csv", index=False)
 
 
 # Add Task
 def add_task():
-    task = input("Enter Task Name : ")
+    df = load_df()
 
-    cursor.execute(
-        "INSERT INTO tasks(task_name) VALUES(?)",
-        (task,)
-    )
-    conn.commit()
+    title = input("Enter task Name: ")
+    priority = input("Enter task Priority: ")
+    status = input("Enter task Status: ")
 
-    print("Task Added Successfully.")
+    if len(df) == 0:
+        task_id = 1
+    else:
+        task_id = df["id"].max() + 1
+
+    new_task = pd.DataFrame({
+        "id": [task_id],
+        "title": [title],
+        "priority": [priority],
+        "status": [status]
+    })
+
+    df = pd.concat([df, new_task], ignore_index=True)
+    save_df(df)
+
+    print("Task Successfully Added")
 
 
-# Display Tasks
-def display_tasks():
-    cursor.execute("SELECT * FROM tasks")
-    data = cursor.fetchall()
+# Display Task
+def display_task():
+    df = load_df()
+    print("\n========== DISPLAY TASKS ==========")
 
-    if len(data) == 0:
-        print("No Tasks Found.")
-        return
-
-    print("\n------ TASK LIST ------")
-    print("ID\tTask\t\tStatus")
-
-    for row in data:
-        print(f"{row[0]}\t{row[1]}\t\t{row[2]}")
+    if df.empty:
+        print("No tasks found.")
+    else:
+        print(df)
 
 
 # Update Task
 def update_task():
-    display_tasks()
+    df = load_df()
 
-    task_id = int(input("\nEnter Task ID to Update : "))
+    taskid = int(input("Enter Task ID to Update: "))
 
-    cursor.execute(
-        "SELECT * FROM tasks WHERE id=?",
-        (task_id,)
-    )
-
-    task = cursor.fetchone()
-
-    if task is None:
-        print("Task Not Found.")
+    if taskid not in df["id"].values:
+        print("Task ID not found.")
         return
 
-    print("\n1. Change Task Name")
-    print("2. Change Status")
+    title = input("Enter New Task Name: ")
+    priority = input("Enter New Priority: ")
+    status = input("Enter New Status: ")
 
-    choice = int(input("Enter Choice : "))
+    df.loc[df["id"] == taskid, "title"] = title
+    df.loc[df["id"] == taskid, "priority"] = priority
+    df.loc[df["id"] == taskid, "status"] = status
 
-    if choice == 1:
-        new_task = input("Enter New Task Name : ")
-
-        cursor.execute(
-            "UPDATE tasks SET task_name=? WHERE id=?",
-            (new_task, task_id)
-        )
-        conn.commit()
-
-        print("Task Updated Successfully.")
-
-    elif choice == 2:
-        print("\n1. Pending")
-        print("2. Completed")
-
-        status_choice = int(input("Enter Choice : "))
-
-        if status_choice == 1:
-            status = "Pending"
-        elif status_choice == 2:
-            status = "Completed"
-        else:
-            print("Invalid Choice")
-            return
-
-        cursor.execute(
-            "UPDATE tasks SET status=? WHERE id=?",
-            (status, task_id)
-        )
-        conn.commit()
-
-        print("Status Updated Successfully.")
-
-    else:
-        print("Invalid Choice.")
+    save_df(df)
+    print("Task Successfully Updated")
 
 
 # Delete Task
 def delete_task():
-    display_tasks()
+    df = load_df()
 
-    task_id = int(input("\nEnter Task ID to Delete : ")
+    taskid = int(input("Enter Task ID to Delete: "))
 
-)
-    cursor.execute(
-        "DELETE FROM tasks WHERE id=?",
-        (task_id,)
-    )
-    conn.commit()
+    if taskid not in df["id"].values:
+        print("Task ID not found.")
+        return
 
-    print("Task Deleted Successfully.")
+    df = df[df["id"] != taskid]
+    save_df(df)
+
+    print("Task Successfully Deleted")
 
 
 # Pie Chart
-def show_chart():
-    cursor.execute(
-        "SELECT COUNT(*) FROM tasks WHERE status='Completed'"
-    )
-    completed = cursor.fetchone()[0]
+def showpiechart():
+    df = load_df()
 
-    cursor.execute(
-        "SELECT COUNT(*) FROM tasks WHERE status='Pending'"
-    )
-    pending = cursor.fetchone()[0]
-
-    if completed == 0 and pending == 0:
-        print("No Tasks Available.")
+    if df.empty:
+        print("No data available.")
         return
 
-    labels = ["Completed", "Pending"]
-    values = [completed, pending]
+    status_count = df["status"].value_counts()
 
     plt.figure(figsize=(6, 6))
     plt.pie(
-        values,
-        labels=labels,
+        status_count,
+        labels=status_count.index,
         autopct="%1.1f%%"
     )
-    plt.title("Task Status Ratio")
+    plt.title("Task Status Pie Chart")
+    plt.show()
+
+
+# Bar Chart
+def showbarchart():
+    df = load_df()
+
+    if df.empty:
+        print("No data available.")
+        return
+
+    status_count = df["status"].value_counts()
+
+    plt.figure(figsize=(7, 5))
+    plt.bar(
+        status_count.index,
+        status_count.values
+    )
+    plt.title("Task Status Bar Chart")
+    plt.xlabel("Status")
+    plt.ylabel("Number of Tasks")
     plt.show()
 
 
 # Main Menu
 while True:
-    print("\n====== TASK MANAGER ======")
-    print("1. Add Task")
-    print("2. Display Tasks")
-    print("3. Edit and Update Task")
-    print("4. Delete Task")
-    print("5. Show Pie Chart")
-    print("6. Exit")
+    print("""
+===== TASK MANAGER APP =====
+1. Add Task
+2. Display Task
+3. Update Task
+4. Delete Task
+5. Show Pie Chart
+6. Show Bar Chart
+7. Exit
+""")
 
-    choice = int(input("Enter Choice : "))
+    choice = input("Enter Your Choice: ")
 
-    if choice == 1:
+    if choice == "1":
         add_task()
-
-    elif choice == 2:
-        display_tasks()
-
-    elif choice == 3:
+    elif choice == "2":
+        display_task()
+    elif choice == "3":
         update_task()
-
-    elif choice == 4:
+    elif choice == "4":
         delete_task()
-
-    elif choice == 5:
-        show_chart()
-
-    elif choice == 6:
-        print("Thank You...")
-        conn.close()
+    elif choice == "5":
+        showpiechart()
+    elif choice == "6":
+        showbarchart()
+    elif choice == "7":
+        print("Thank You!")
         break
-
     else:
-        print("Invalid Choice.")
+        print("Invalid Choice")
