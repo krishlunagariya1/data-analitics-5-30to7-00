@@ -80,8 +80,3 @@ CREATE TABLE employees (
    `mysql.connector.pooling.MySQLConnectionPool` instead of opening a new
    connection per query
 
-## Troubleshooting
-- `Access denied for user 'root'@'localhost'` → wrong password in `config.py`
-- `Can't connect to MySQL server` → MySQL service isn't running
-  (Windows: check Services app; Mac/Linux: `sudo service mysql start` or `brew services start mysql`)
-- `ModuleNotFoundError: No module named 'mysql'` → run `pip install mysql-connector-python`
