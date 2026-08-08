@@ -1,0 +1,5 @@
+ProductID,Name,Category,Price,Discount
+M001,Denim Jacket,Apparel,2999,20%
+M002,Sneakers,Footwear,2499,15%
+M003,Sunglasses,Accessories,899,10%
+M004,Smartwatch,Electronics,3999,25%
