@@ -1,125 +1,224 @@
-# Advanced Excel for Analytics — Worked Notes
-**Assessment theme:** Business Problem Framing & KPI Identification
-**Reference dataset:** `RawData` tab in `Excel_KPI_Reference_Workbook.xlsx` (5,314-row OnlineRetail-style transaction table, Oct–Dec 2025) + `Revenue Forecast` tab (24 months of synthetic history for the forecasting task)
-**UI assumed below:** Excel Desktop 365/2021 for Windows. Mac/Excel Online differences are flagged inline.
+# Advanced Excel For Analytics — Assessment Answers
+
+**Theme:** Business Problem Framing & KPI Identification
+**Dataset:** [Kaggle – Online Retail Dataset](https://www.kaggle.com/datasets/carrie1/ecommerce-data)
+**Total Time:** 3 Hours
 
 ---
 
-## Sample dataset
+## Section A: Concept Application
 
-| Column | Type | Notes |
+### 1. What is the first step an analyst should take before opening a dataset to investigate flat revenue despite increased traffic?
+
+Before opening the dataset, the analyst should **frame the business problem** — not touch the data yet. This means:
+
+- Restating the problem as a clear, answerable question: *"Why has revenue stayed flat while traffic has grown?"*
+- Forming a set of **hypotheses** to test (e.g., lower conversion rate, falling AOV, higher return/cancellation rate, discount-heavy traffic, seasonality mismatch, poor product mix).
+- Identifying **what metrics/KPIs** would prove or disprove each hypothesis (Conversion Rate, AOV, Repeat Rate, Revenue per Visitor, etc.).
+- Deciding the **time grain and scope** needed (daily/hourly, by region, by product) to test those hypotheses.
+
+Only after this framing should the analyst open the dataset — otherwise they risk "data diving" (looking for patterns with no direction), which wastes time and can lead to spurious conclusions.
+
+---
+
+### 2. What specific characteristics distinguish a "Key Performance Indicator" (KPI) from a standard business metric?
+
+| Characteristic | Standard Metric | KPI |
 |---|---|---|
-| InvoiceNo | Text | ~2% start with `C` = cancelled/returned order (negative Quantity) |
-| StockCode | Text | 40 products |
-| Description | Text | ~2% blank on purpose (for the profiling task) |
-| Quantity | Integer | negative for cancellations |
-| InvoiceDate | Date/time | Oct 1 – Dec 24, 2025, weighted toward business-hour + evening peaks |
-| UnitPrice | Currency | fixed per product |
-| CustomerID | Integer | ~8.5% blank on purpose |
-| Country | Text | UK-majority, 10 other countries |
+| **Definition** | Any measurable number (raw or calculated) | A metric tied directly to a strategic business objective |
+| **Actionability** | May or may not lead to a decision | Must be actionable — tells you what to *do* |
+| **Target/Benchmark** | Usually none | Has a target, threshold, or benchmark to compare against |
+| **Ownership** | Not necessarily owned by anyone | Usually owned by a team/role accountable for it |
+| **Trend relevance** | May be static or one-off | Tracked over time to show performance direction |
 
-Helper columns already added in the table (`LineRevenue`, `Hour`, `IsFirstLineOfInvoice`) so you can build PivotTables straight from it.
+In short: **all KPIs are metrics, but not all metrics are KPIs.** A metric becomes a KPI only when it is (a) aligned to a specific goal, (b) measurable consistently over time, and (c) actionable — i.e., a change in it should trigger a business decision.
 
----
-
-## Section A — Concept Application (short answers)
-
-1. **Before opening the dataset:** frame the business question first — write down exactly what "flat revenue despite increased traffic" means numerically (e.g., conversion rate = orders/visits) so you know which columns/joins you actually need, instead of exploring blindly.
-2. **KPI vs. metric:** a KPI is tied to a specific business objective, has a target/benchmark, is tracked over a defined time period, and someone is accountable for moving it. A metric is just any measured number — not every metric is a KPI.
-3. **AOV** = Descriptive KPI (answers "what is happening?" — average £ per order). **Customer Repeat Rate** = Diagnostic KPI (answers "why is it happening?" — is revenue driven by new or returning customers?).
-4. **Excel** is justified for ad-hoc, formula-transparent, single-user analysis you need to hand-audit (e.g., this KPI workbook). **Power BI** is justified when the model needs to refresh automatically from a live source and be shared as an interactive dashboard across a team.
-5. **"Number of Customers" is Descriptive, not Diagnostic** — it tells you *how many* but not *why* revenue moved. A Diagnostic KPI has to explain a driver (e.g., repeat rate, AOV shift, churn by segment); customer count alone doesn't isolate a cause.
-6. **Raw columns aren't KPIs** because they're unaggregated and have no business meaning on their own (UnitPrice is just a price, not a performance signal). To turn it into a KPI you must aggregate (sum/average), attach a time dimension, and relate it to a business objective — e.g., UnitPrice → AOV → tracked monthly against a target.
+*Example:* "Total number of website clicks" is a metric. "Conversion Rate (%)" is a KPI, because it's tied to the revenue objective, has an implicit target, and directly informs action (e.g., improve checkout flow).
 
 ---
 
-## Section B — Practical Tasks
+### 3. Classify Average Order Value (AOV) and Customer Repeat Rate as either Descriptive or Diagnostic KPIs and state the questions they answer.
 
-### B1. Power Query data profiling (missing CustomerID / Description)
+| KPI | Classification | Question it Answers |
+|---|---|---|
+| **Average Order Value (AOV)** | **Descriptive KPI** | *"What is happening?"* — On average, how much is a customer spending per order right now? |
+| **Customer Repeat Rate** | **Diagnostic KPI** | *"Why is it happening?"* — Is flat/declining revenue caused by failure to retain customers, or by weaker spending per order? |
 
-**Concept:** Power Query's Column Quality and Column Distribution views quantify data completeness before you trust any KPI built on that column.
+**Reasoning:**
+- **AOV** summarizes a current state (a snapshot of average transaction size) — it describes *what* is happening without explaining cause. That makes it Descriptive.
+- **Customer Repeat Rate** helps explain the *cause* behind a revenue trend — e.g., if repeat rate is falling while traffic rises, it diagnoses that the problem is **retention**, not acquisition. This root-cause capability makes it Diagnostic.
 
-**Steps (Windows):**
-1. Select any cell in your data → **Data → From Table/Range** (or `Data → Get Data → From File → From Workbook` if importing fresh).
-2. In the Power Query Editor: **View → Column quality** and **View → Column distribution**.
-3. Click each header's quality bar for a % Valid / % Error / % Empty breakdown.
-4. Right-click `CustomerID` → **Transform → Column Profile** for the exact missing count, or add a step: select the column → **Home → Remove Rows → Remove Blank Rows** on a duplicated query if you want to quantify impact by comparing row counts before/after.
-5. Close & Load, or keep exploring — don't apply the blank-row removal to your real query unless you intend to drop those rows.
-
-**Reference numbers** (already computed with formulas on the `Data Profiling` tab so you can check your Power Query result against them): **CustomerID: 449/5,314 missing (8.4%)**, **Description: 95/5,314 missing (1.8%)**.
-
-**Version note:** Column Quality/Distribution bars require Excel 2016+ with Power Query (built in from 2016 onward); Excel Online's Power Query support is limited — do this step in desktop Excel.
+*(Note: in practice AOV can also be used diagnostically — e.g., comparing AOV of new vs. repeat customers — but in its plain form as "average spend per order," it is fundamentally descriptive.)*
 
 ---
 
-### B2. Multi-layered PivotTable — AOV & Revenue per Minute by hour
+### 4. Provide one justified reason to choose Excel and one reason to choose Power BI for analyzing Monthly Revenue.
 
-**Concept:** A PivotTable with a numeric field bucketed by hour lets you spot peak-traffic-but-low-conversion windows — the actual business question in the brief.
+**Choose Excel when:**
+- You need **flexible, ad-hoc, cell-level analysis** — e.g., manually adjusting formulas, building a one-off Pareto chart, or doing what-if forecasting with the Analysis ToolPak. Excel is faster for a single analyst doing exploratory, iterative work on a dataset that fits in memory and doesn't need to be shared live with a large audience.
 
-**Steps (Windows):**
-1. Click inside the `OnlineRetail` table on `RawData` → **Insert → PivotTable → New Worksheet**.
-2. Drag **InvoiceDate** to **Rows** — right-click the resulting date group → **Group** → tick only **Hours** (untick Months/Years) to bucket by hour of day.
-3. Drag **LineRevenue** to **Values** → set to **Sum**, rename "Sum of LineRevenue" to "Revenue".
-4. Drag **InvoiceNo** to **Values** a second time → **Value Field Settings → Summarize by → Distinct Count** (Excel 2013+; on older versions use `IsFirstLineOfInvoice` summed instead, exactly as the reference tab does).
-5. Add a **calculated field**: **PivotTable Analyze → Fields, Items & Sets → Calculated Field** → Name `AOV`, Formula `=LineRevenue/InvoiceNo` (or `/IsFirstLineOfInvoice`).
-6. Add a second calculated field `RevenuePerMinute` = `LineRevenue/60`.
-7. **Insert → PivotChart** (clustered column) from the same PivotTable to visualize revenue-per-minute by hour.
-
-**Reference numbers:** see the `AOV and Revenue per Hour` tab — hours 12–14 and 17–19 show the highest revenue/minute; overall AOV ≈ **£274**.
-
-**Version note:** Distinct Count as a summary option needs Excel 2013+ *and* the table to be added to the Data Model (tick "Add this data to the Data Model" when inserting the PivotTable). If you're on an older build, use the `IsFirstLineOfInvoice` helper-column trick instead — it works everywhere.
+**Choose Power BI when:**
+- You need a **live, shareable, auto-refreshing dashboard** for stakeholders — e.g., monthly revenue needs to update automatically as new data lands, be sliced interactively by region/product by non-technical viewers, and be distributed across the organization via the Power BI Service. Power BI's data model (DAX) also scales better to large/relational datasets than a single Excel workbook.
 
 ---
 
-### B3. Dynamic Pareto Chart (80/20)
+### 5. Is "Number of Customers" a valid Diagnostic KPI for revenue trends? Justify by comparing Descriptive vs. Diagnostic logic.
 
-**Concept:** Ranks products by revenue and overlays cumulative % so you can see visually which ~20% of SKUs drive ~80% of revenue — and which long-tail items may be diluting margin (through discounting, returns, or holding cost) without contributing much revenue.
+**No — "Number of Customers" is a Descriptive KPI, not a Diagnostic one.**
 
-**Steps (Windows):**
-1. Build a PivotTable: Rows = `StockCode`/`Description`, Values = Sum of `LineRevenue`.
-2. Right-click any value → **Sort → Sort Largest to Smallest**.
-3. Add a helper column next to the Pivot output (or in a normal range) for cumulative % : `=SUM($B$2:B2)/SUM($B$2:$B$41)` filled down, formatted as %.
-4. Select the revenue column + cumulative % column → **Insert → Chart → Histogram → Pareto** (Excel 2016+ has a one-click **Pareto** chart type under Histogram) *or* build it manually as a combo chart: **Insert → Combo Chart → Clustered Column – Line on Secondary Axis**, with cumulative % as the line series on the secondary axis, scaled 0–100%.
-5. Add a horizontal reference line at 80% on the secondary axis (a constant helper column plotted as a line) to mark the cutoff visually.
+- **Descriptive logic** answers *"what is the current state?"* — Number of Customers simply counts how many unique buyers existed in a period. It tells you volume, nothing more.
+- **Diagnostic logic** answers *"why did the trend happen?"* — it requires a **comparison, ratio, or segmentation** that isolates a cause. Diagnostic KPIs relate two variables (e.g., Repeat Rate = Repeat Customers ÷ Total Customers, or Revenue per Customer = Revenue ÷ Customers).
 
-**Reference:** the `Pareto - Top Products` tab already has this built as a real Excel combo chart (bars = revenue, line = cumulative %) with a conditional-format flag marking which products fall in the top 20% by count. In this sample, ~8 of 40 products (20%) already account for over half of total revenue — you'll see the curve bend sharply after the first 5–6 SKUs (cakestands, buntings, memoboard).
+"Number of Customers" on its own cannot explain *why* revenue is flat. For example, customer count could be rising (more traffic converting to buyers) while revenue stays flat — the raw count would look "healthy" and mask the real problem, which might be falling AOV or high churn among the *existing* customer base.
 
-**Version note:** the built-in **Histogram → Pareto** chart type requires Excel 2016+; earlier versions must use the manual combo-chart method in step 4, which works in every version including Excel Online.
+To make it diagnostic, it would need to be **decomposed**, e.g.:
+- New vs. Returning Customer split
+- Revenue per Customer trend
+- Customer count segmented by cohort/region
 
----
-
-### B4. Time-series forecast — next quarter revenue (Analysis ToolPak)
-
-**Concept:** Fits a trend/regression line to historical monthly revenue (capturing seasonality) and projects it forward, then flags months where actuals deviated significantly from the fitted trend — a proxy for unexplained shocks (promotions, stockouts, seasonality misses).
-
-**Steps (Windows):**
-1. Enable the add-in once: **File → Options → Add-ins → Manage: Excel Add-ins → Go… → tick Analysis ToolPak → OK.**
-2. With monthly revenue history laid out as two columns (Month index, Revenue): **Data → Data Analysis → Regression** (for a trend line + R², significance stats) or **Data → Data Analysis → Exponential Smoothing** (for a smoothed series that adapts to recent seasonality, damping factor ≈ 0.2–0.3 is a reasonable start).
-3. For Regression: Input Y Range = Revenue, Input X Range = Month index, tick **Line Fit Plot** and **Residuals** — residuals more than ~2 standard deviations from 0 are your "significant variances."
-4. To project forward, extend the X range to include 3 future month indices before running Regression, or simply drag-fill the trendline's equation (`y = mx + b`, read `m` and `b` off the Regression output) for months 25–27.
-
-**Reference tab (`Revenue Forecast`)** does the equivalent with the `TREND()` worksheet function (same least-squares logic as ToolPak's Regression, but live and recalculating) — it flags any month where actual vs. trend variance exceeds ±10% in red, and projects three months forward. In this sample: **Jan–Mar next-quarter forecast ≈ £68.9k / £70.3k / £71.5k**, with Nov–Dec showing the largest positive variances (holiday seasonality the straight-line trend under-predicts — worth calling out explicitly in your write-up as a limitation of a purely linear model).
-
-**Version note:** Analysis ToolPak ships with Excel Desktop (Windows and Mac) but is **not available in Excel Online**; on Mac, the menu path is **Data → Analysis Tools**, and the Exponential Smoothing tool's UI is slightly different (fewer options) than Windows. `TREND()`/`FORECAST.LINEAR()` work everywhere, including Online, and are the honest fallback if you don't have ToolPak enabled.
+Only in these transformed, comparative forms does it start explaining causes — as a raw count, it stays Descriptive.
 
 ---
 
-## Section C — Mini Project scaffold
+### 6. Why is treating raw data columns (like UnitPrice) as KPIs incorrect, and what transformation steps are required to create a meaningful KPI?
 
-- **Cleaned Data Model:** load `RawData` into Power Query, apply the profiling/cleanup from B1 (don't blindly drop blank-CustomerID rows — flag them as "Guest" instead so you don't lose revenue history).
-- **Descriptive KPI Dashboard:** AOV, Revenue/Minute by hour, and the Pareto chart from B2/B3 are your descriptive core.
-- **Monthly Cohort Analysis:** group by `CustomerID` (excluding blanks) × month of first purchase, then track repeat purchase rate per cohort per subsequent month.
-- **Diagnostic Report on Churn Drivers:** cross the cohort table against `Country` and AOV to see whether churn concentrates in specific geographies or low-AOV segments — that's the Diagnostic layer the brief is asking for.
+**Why it's incorrect:**
+A raw column like `UnitPrice` is just a **data field** captured per transaction line — it has no business meaning on its own. A KPI must be:
+1. **Aggregated** over a meaningful dimension (time, customer, product, region)
+2. **Aligned to a business objective** (revenue, retention, efficiency)
+3. **Comparable** across periods or benchmarks
+
+`UnitPrice` alone tells you the price of one line item in one row — it says nothing about overall performance, trend, or health of the business. Using it directly as a "KPI" would be like reporting a single employee's hourly wage as "Company Productivity."
+
+**Transformation steps required:**
+
+| Step | Action | Example |
+|---|---|---|
+| 1. **Clean** | Remove/handle nulls, negative quantities (returns), duplicate rows | Filter out `Quantity < 0` or blank `CustomerID` |
+| 2. **Derive** | Create a calculated field | `Revenue = UnitPrice × Quantity` |
+| 3. **Aggregate** | Roll up to a business dimension (day/month/customer/product) | `SUMIFS(Revenue, Date, month)` → Monthly Revenue |
+| 4. **Normalize/Ratio** (if diagnostic) | Divide by a denominator to make it comparable | `AOV = Total Revenue ÷ Number of Orders` |
+| 5. **Benchmark** | Compare to target, prior period, or peer segment | MoM % change, YoY growth |
+
+Only after these steps does a raw column like `UnitPrice` become part of a real KPI, such as **Average Order Value** or **Monthly Revenue**.
 
 ---
 
-## What's built vs. what you build yourself
+## Section B: Practical Task
 
-| Built for you in the workbook | You build in Excel UI (steps above) |
-|---|---|
-| Sample dataset + helper columns | Actual Power Query profiling steps |
-| Formula-driven KPI summaries (stand-ins for PivotTables) | Real interactive PivotTable/PivotChart |
-| Pareto combo chart | Slicers/Timeline on your PivotTable |
-| `TREND()` forecast | Analysis ToolPak Regression/Smoothing dialog |
+> **Note:** These tasks require hands-on work directly inside the downloaded `OnlineRetail` dataset (Kaggle link above) in Excel/Power Query. Below is the exact step-by-step methodology, formulas, and configuration to execute each task in Excel. Since I can't access the internet or your local files in this session, follow these steps against your own downloaded copy of the dataset — the logic and formulas are ready to apply directly.
 
-Interactive PivotTables, Power Query queries, and ToolPak dialogs are Excel-UI-driven objects that can't be reliably generated by a script and reopened cleanly across Excel versions — so the workbook gives you formula-equivalent numbers to check your own PivotTable/ToolPak output against, rather than fake pivot objects that might not survive being opened.
+### 1. Power Query Data Profiling — Missing Values in `CustomerID` and `Description`
+
+**Steps:**
+1. `Data` → `Get Data` → `From File` → `From Text/CSV` → load `OnlineRetail.csv/xlsx` into Power Query Editor.
+2. In the Power Query Editor ribbon, go to `View` → check **Column Quality**, **Column Distribution**, and **Column Profile** (also set "Column profiling based on entire dataset" at the bottom, not just top 1000 rows).
+3. This instantly shows, for each column, the % **Valid**, **Error**, and **Empty**.
+4. For `CustomerID` and `Description`, note the **Empty %** shown in the Column Quality bar.
+5. To quantify impact numerically, add a Custom Column:
+   ```
+   = if [CustomerID] = null then "Missing" else "Present"
+   ```
+   Then `Group By` this new column to get exact counts.
+6. **Quantifying KPI impact:** Any row with a missing `CustomerID` cannot be attributed to a customer — so it must be **excluded** from customer-level KPIs (Repeat Rate, CLV, Cohort Analysis) even though it may still count toward raw revenue. Typically ~25% of rows in this dataset have missing `CustomerID` — meaning roughly a quarter of transactions are invisible to any customer-based diagnostic KPI, which is a material data-quality risk to flag.
+7. Missing `Description` mainly affects product-level KPIs (Pareto analysis, top-product reporting) — filter or flag these before product-level aggregation to avoid skewing the 80/20 analysis.
+8. Load a **Data Quality Summary table** back into Excel: Column | Total Rows | Missing Count | Missing % | KPI(s) Impacted.
+
+---
+
+### 2. Multi-layered PivotTable — AOV and Revenue per Minute (Peak-Traffic, Low-Conversion Hours)
+
+**Prep (Power Query / helper columns):**
+- `Order Value = SUM of (UnitPrice × Quantity)` grouped by `InvoiceNo`
+- `Hour = HOUR([InvoiceDate])`, `Minute-of-day bucket = HOUR([InvoiceDate])&":"&TEXT(MINUTE([InvoiceDate])-MOD(MINUTE([InvoiceDate]),5),"00")` (5-minute buckets recommended, since exact-minute granularity is usually too sparse)
+
+**PivotTable Layer 1 — AOV by Hour:**
+- Rows: `Hour`
+- Values:
+  - `Sum of Revenue`
+  - `Distinct Count of InvoiceNo` (add InvoiceNo to the Data Model and use `DISTINCTCOUNT`, or use a helper column with `COUNTIF`)
+  - Calculated field: `AOV = Sum of Revenue ÷ Distinct Count of InvoiceNo`
+
+**PivotTable Layer 2 — Revenue per Minute:**
+- Rows: `Hour` → `Minute Bucket` (drill-down layer)
+- Values: `Sum of Revenue`, then a calculated field `Revenue per Minute = Sum of Revenue ÷ 5` (since each bucket spans 5 minutes)
+
+**Pinpointing peak-traffic/low-conversion hours:**
+- Add a third value: `Distinct Count of InvoiceNo` (traffic proxy) alongside `AOV`.
+- Sort/filter hours where **transaction count is high** but **AOV or Revenue-per-Minute is comparatively low** — these are your "high traffic, low conversion value" windows.
+- Visualize with a combo PivotChart: bar = Order Count, line = AOV, on the same hourly axis, to visually spot the divergence.
+
+---
+
+### 3. Dynamic Pareto Chart (80/20 Rule) — Top vs. Bottom Product Contribution
+
+**Steps:**
+1. Build a PivotTable: Rows = `Description` (or `StockCode`), Values = `Sum of Revenue`.
+2. Sort the Pivot **descending by Revenue**.
+3. Add helper columns next to the Pivot output (or in a linked table):
+   - `Cumulative Revenue = running SUM() of Revenue down the sorted list`
+   - `Cumulative % = Cumulative Revenue ÷ Total Revenue`
+   - `Product Rank % = Row Number ÷ Total Product Count`
+4. Select the Product + Revenue range → `Insert` → `Chart` → **Histogram group** → **Pareto** (Excel's built-in Pareto chart type auto-sorts descending and plots the cumulative % line — available in Excel 2016+).
+5. To make it **dynamic** (auto-updates as data refreshes):
+   - Convert the source range to an **Excel Table** (`Ctrl+T`) or feed it from the Power Query output.
+   - Use `SORT()` and `SUM()`/`SCAN()`-style dynamic array formulas (or a helper Pivot) so cumulative % recalculates automatically.
+   - Base the chart on the Table/Pivot range so it expands automatically with new data.
+6. **Reading the result:** Mark the point where the cumulative % line crosses **80%** — the products above that line are your "vital few" (top 20% driving 80% of revenue). Products in the bottom 20% of cumulative contribution (long tail) are candidates for review — they may be diluting margin through inventory/holding cost without contributing meaningfully to revenue.
+
+---
+
+### 4. Time-Series Forecast — Analysis ToolPak (Next-Quarter Revenue)
+
+**Steps:**
+1. First enable the ToolPak: `File` → `Options` → `Add-ins` → `Excel Add-ins` → `Go` → check **Analysis ToolPak**.
+2. Aggregate the data to **Monthly Revenue** (PivotTable: Rows = Month-Year, Values = Sum of Revenue) — time series forecasting needs a clean, evenly-spaced series (12+ months ideally).
+3. Two approaches:
+   - **Quick approach – `FORECAST.ETS()`:** Use Excel's built-in exponential smoothing function (handles seasonality automatically):
+     ```
+     =FORECAST.ETS(target_date, known_revenue_range, known_date_range)
+     ```
+     Or select the data → `Data` → `Forecast Sheet` for a one-click seasonal forecast with confidence intervals.
+   - **ToolPak approach – Exponential Smoothing / Moving Average:** `Data` → `Data Analysis` → **Exponential Smoothing** (set damping factor ~0.2–0.3) or **Moving Average** (period = 3 or 12 depending on seasonality) to smooth the series and project forward.
+4. To explicitly capture **seasonality**, use `FORECAST.ETS.SEASONALITY()` to detect the seasonal cycle length, then feed that into `FORECAST.ETS()`.
+5. **Identify variances:** Calculate `Variance = Actual − Forecast` for historical months where both exist; flag any month where `|Variance| > 1 standard deviation` of the residuals (`=STDEV.P(variance_range)`) as a significant anomaly (e.g., a promotion, stockout, or holiday spike not explained by seasonality alone).
+6. Present as a line chart: Actual Revenue vs. Forecast, with the projected next-quarter (3 months) extended and confidence bands (upper/lower from `FORECAST.ETS.CONFINT()`) shaded.
+
+---
+
+## Section C: Mini Project
+
+### 1. Title
+**E-commerce Retention and Revenue Recovery Strategy**
+
+### 2. Problem Statement
+Analyze the divergence between steady foot traffic and stagnating revenue by identifying high-churn customer cohorts and underperforming geographic segments.
+
+### 3. Dataset
+[Kaggle – Online Retail Dataset](https://www.kaggle.com/datasets/carrie1/ecommerce-data)
+
+### 4. Suggested Approach for Each Deliverable
+
+**a) Cleaned Data Model (Power Query)**
+- Remove cancelled orders (`InvoiceNo` starting with "C"), negative `Quantity`, null `CustomerID` rows (route to a separate "unattributed revenue" table rather than deleting outright), and duplicate rows.
+- Create calculated columns: `Revenue`, `Order Month`, `Order Hour`, `Country` (already present — clean inconsistent naming, e.g. "EIRE" vs "Ireland" if present).
+- Load as a proper data model with `Orders`, `Customers`, and `Products` split into related tables if doing a star-schema-style model (optional but ideal for PivotTable performance).
+
+**b) Descriptive KPI Dashboard (Excel)**
+- Core KPIs: Total Revenue, Total Orders, AOV, Unique Customers, Revenue by Country (map or bar), Revenue Trend (monthly line), Top 10 Products by Revenue (Pareto).
+- Build with linked PivotTables/PivotCharts + slicers for Month and Country, on a single dashboard sheet.
+
+**c) Monthly Cohort Analysis Table**
+- Assign each customer a **cohort month** = month of their first purchase (`MINIFS` on `InvoiceDate` per `CustomerID`).
+- Build a matrix: Rows = Cohort Month, Columns = Months Since First Purchase (0,1,2,...), Values = % of cohort still active (retention rate) — classic cohort heatmap, conditionally formatted.
+- Use `COUNTIFS`/Power Pivot `DISTINCTCOUNT` with `DATEDIF`/month-difference calculations to populate the grid.
+
+**d) Diagnostic Report on Customer Churn Drivers**
+- Compare **repeat rate, AOV, and average order frequency** across countries/segments to isolate where churn concentrates.
+- Segment customers via a simplified **RFM (Recency, Frequency, Monetary)** analysis — flag "at risk" (high past spend, long recency gap) vs. "healthy" segments.
+- Cross-reference churn-heavy cohorts against geography to identify whether the revenue stagnation is concentrated in specific underperforming countries/regions (e.g., a market with rising order count but falling repeat rate signals an acquisition-heavy, retention-weak market).
+- Conclude with 2–3 actionable recommendations (e.g., targeted win-back campaign for lapsed high-value customers, region-specific promotions where AOV is falling).
+
+---
+
+*Prepared as a complete methodology and answer guide for the TOPS Technologies "Advanced Excel For Analytics" assessment. Practical steps in Section B and C are ready to apply directly against your downloaded copy of the OnlineRetail dataset in Excel/Power Query.*
